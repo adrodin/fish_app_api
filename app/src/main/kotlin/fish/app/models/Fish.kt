@@ -3,38 +3,65 @@ package fish.app.models
 import java.util.*
 import javax.persistence.*
 
-
-@Entity()
 @Table(name = "fishes")
+@Entity
 class Fish{
     @Id
-    @GeneratedValue
-    private val id : Long? = null
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private var id : Long? = null
     @Column(name="weight")
-    private val weight : Double? = null
+    private var weight : Double? = null
     @Column(name="length")
-    private val length : Double? = null
+    private var length : Double? = null
     @Column(name="x")
-    private val x : Double? = null
+    private var x : Double? = null
     @Column(name="y")
-    private val y : Double? = null
+    private var y : Double? = null
     @Column(name="date")
     @Temporal(TemporalType.DATE)
-    private val date : Date? = null
+    private var date : Date? = null
     @ManyToOne
     @JoinColumn(name="id_user", referencedColumnName = "id")
     private var user: User? = null
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name="id_species", referencedColumnName="id")
     private var species: Species? = null
 
+    constructor(weight: Double,length:Double, x:Double,y:Double,date:java.sql.Date,user:User,species: Species){
+        this.weight = weight
+        this.length = length
+        this.x = x
+        this.y = y
+        this.date = date
+        this.user = user
+        this.species = species
+    }
 
+    fun setWeight(weight:Double){
+        this.weight = weight
+    }
+    fun setLength(length:Double){
+        this.length = length
+    }
+    fun getWeight(): Double? {
+        return weight
+    }
+    fun getLength():Double?{
+        return length
+    }
+
+    fun getUser(): User? {
+        return user
+    }
     override fun toString(): String {
-        return "Fish{\n" +
+        return "{" +
                 "   id: $id,\n" +
                 "   weight: $weight,\n" +
-                "   user: ${user.toString()},\n" +
-                "   species: $species,\n" +
+                "   length: $length,\n" +
+                "   x: $x,\n" +
+                "   y: $y,\n" +
+                "   user: ${user?.getName()},\n" +
+                "   species: ${species?.getName()}\n" +
                 "}\n"
     }
 }

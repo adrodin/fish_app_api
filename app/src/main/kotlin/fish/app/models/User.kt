@@ -3,32 +3,33 @@ package fish.app.models
 import javax.persistence.*
 
 
-@Entity()
+@Entity
 @Table(name = "users")
 class User(
-    @Id
-    @GeneratedValue
-    private var id: Long,
     private var name: String,
     private var email: String,
     private var password: String
 ){
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private var id: Long? = null
     @OneToMany (mappedBy = "user")
-    private var fieschesList: List<Fish>? = null
+    private var fishList: List<Fish>? = null
     @OneToOne(mappedBy = "user")
     private var apiKey: ApiKey? = null
 
+    constructor(id: Long, name: String,email: String,password: String) : this(name,email,password) {
+        this.id = id
+    }
+
     override fun toString(): String {
         return "User{\n" +
-                "   id: $id,\n" +
                 "   name: $name,\n" +
-                "   email: $email,\n" +
-                "   password: $password,\n" +
                 "}\n"
 
     }
 
-    fun getId(): Long {
+    fun getId(): Long? {
         return id
     }
     fun getName(): String{
@@ -39,6 +40,10 @@ class User(
     }
     fun getPassword():String{
         return password
+    }
+
+    fun getApiKey(): ApiKey? {
+        return this.apiKey
     }
 
     fun setID(id:Long){
@@ -55,12 +60,5 @@ class User(
     }
 }
 
-
-//    @ManyToMany
-//    @JoinTable(
-//        name = "post_tag",
-//        joinColumns = [JoinColumn(name = "post_id")],
-//        inverseJoinColumns = [JoinColumn(name = "tag_id")]
-//    )
 
 
